@@ -3,12 +3,14 @@ package app
 import (
 	"log"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 func Start() {
 
-	// creating or own multiplexer
-	mux := http.NewServeMux()
+	// creating a gorilla/mux
+	mux := mux.NewRouter()
 
 	mux.HandleFunc("/greet", greet)
 	mux.HandleFunc("/customers", getAllCustomers)
