@@ -1,4 +1,4 @@
-module github.com/jwandekoken/banking
+module github.com/jwandekoken/golang_rest-server
 
 go 1.17
 

@@ -5,7 +5,7 @@ import (
 	"encoding/xml"
 	"net/http"
 
-	"github.com/jwandekoken/banking/service"
+	"github.com/jwandekoken/golang_rest-server/service"
 )
 
 type Customer struct {

@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/jwandekoken/banking/domain"
-	"github.com/jwandekoken/banking/service"
+	"github.com/jwandekoken/golang_rest-server/domain"
+	"github.com/jwandekoken/golang_rest-server/service"
 )
 
 func Start() {

@@ -1,6 +1,6 @@
 package service
 
-import "github.com/jwandekoken/banking/domain"
+import "github.com/jwandekoken/golang_rest-server/domain"
 
 type CustomerService interface {
 	GetAllCustomers() ([]domain.Customer, error)
