@@ -19,11 +19,6 @@ type CustomerHandlers struct {
 }
 
 func (ch *CustomerHandlers) getAllCustomers(w http.ResponseWriter, r *http.Request) {
-	// customers := []Customer{
-	// 	{Name: "Julio", City: "Vitoria", Zipcode: "2901231"},
-	// 	{Name: "Rob", City: "Vitoria", Zipcode: "2901231"},
-	// }
-
 	customers, _ := ch.service.GetAllCustomers()
 
 	if r.Header.Get("Content-Type") == "application/xml" {
