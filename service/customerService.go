@@ -1,21 +1,24 @@
 package service
 
-import "github.com/jwandekoken/golang_rest-server/domain"
+import (
+	"github.com/jwandekoken/golang_rest-server/domain"
+	"github.com/jwandekoken/golang_rest-server/errs"
+)
 
 type CustomerService interface {
-	GetAllCustomers() ([]domain.Customer, error)
-	GetCustomer(id string) (*domain.Customer, error)
+	GetAllCustomers() ([]domain.Customer, *errs.AppError)
+	GetCustomer(id string) (*domain.Customer, *errs.AppError)
 }
 
 type DefaultCustomerService struct {
 	repo domain.CustomerRepository
 }
 
-func (s DefaultCustomerService) GetAllCustomers() ([]domain.Customer, error) {
+func (s DefaultCustomerService) GetAllCustomers() ([]domain.Customer, *errs.AppError) {
 	return s.repo.FindAll()
 }
 
-func (s DefaultCustomerService) GetCustomer(id string) (*domain.Customer, error) {
+func (s DefaultCustomerService) GetCustomer(id string) (*domain.Customer, *errs.AppError) {
 	return s.repo.ById(id)
 }
 

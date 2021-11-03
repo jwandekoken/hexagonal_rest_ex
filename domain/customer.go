@@ -1,5 +1,7 @@
 package domain
 
+import "github.com/jwandekoken/golang_rest-server/errs"
+
 type Customer struct {
 	Id        string
 	Name      string
@@ -10,6 +12,6 @@ type Customer struct {
 }
 
 type CustomerRepository interface {
-	FindAll() ([]Customer, error)
-	ById(id string) (*Customer, error)
+	FindAll() ([]Customer, *errs.AppError)
+	ById(id string) (*Customer, *errs.AppError)
 }
