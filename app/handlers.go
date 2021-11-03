@@ -3,8 +3,10 @@ package app
 import (
 	"encoding/json"
 	"encoding/xml"
+	"fmt"
 	"net/http"
 
+	"github.com/gorilla/mux"
 	"github.com/jwandekoken/golang_rest-server/service"
 )
 
@@ -29,4 +31,18 @@ func (ch *CustomerHandlers) getAllCustomers(w http.ResponseWriter, r *http.Reque
 
 	w.Header().Add("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(customers)
+}
+
+func (ch *CustomerHandlers) getCustomer(w http.ResponseWriter, r *http.Request) {
+	id := mux.Vars(r)["customer_id"]
+
+	customer, err := ch.service.GetCustomer(id)
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		fmt.Fprint(w, err.Error())
+		return
+	}
+
+	w.Header().Add("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(customer)
 }
