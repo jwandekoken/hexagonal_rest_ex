@@ -3,18 +3,11 @@ package app
 import (
 	"encoding/json"
 	"encoding/xml"
-	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
 	"github.com/jwandekoken/golang_rest-server/service"
 )
-
-type Customer struct {
-	Name    string `json:"full_name" xml:"name"`
-	City    string `json:"city"  xml:"city"`
-	Zipcode string `json:"zip_code"  xml:"zipcode"`
-}
 
 type CustomerHandlers struct {
 	service service.CustomerService
@@ -38,11 +31,17 @@ func (ch *CustomerHandlers) getCustomer(w http.ResponseWriter, r *http.Request) 
 
 	customer, err := ch.service.GetCustomer(id)
 	if err != nil {
-		w.WriteHeader(err.Code)
-		fmt.Fprint(w, err.Message)
+		writeResponse(w, err.Code, err.AsMessage())
 		return
 	}
 
+	writeResponse(w, http.StatusOK, customer)
+}
+
+func writeResponse(w http.ResponseWriter, code int, data interface{}) {
 	w.Header().Add("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(customer)
+	w.WriteHeader(code)
+	if err := json.NewEncoder(w).Encode(data); err != nil {
+		panic(err)
+	}
 }
