@@ -3,10 +3,10 @@ package domain
 import (
 	"database/sql"
 	"fmt"
-	"log"
 	"time"
 
 	"github.com/jwandekoken/golang_rest-server/errs"
+	"github.com/jwandekoken/golang_rest-server/logger"
 	_ "github.com/lib/pq"
 )
 
@@ -35,7 +35,7 @@ func (d CustomerRepositoryDb) FindAll(status string) ([]Customer, *errs.AppError
 	}
 
 	if err != nil {
-		log.Println("Error while querying customers table " + err.Error())
+		logger.Error("Error while querying customers table " + err.Error())
 		return nil, errs.NewUnexpectedError("error while querying customers table")
 	}
 
@@ -45,7 +45,7 @@ func (d CustomerRepositoryDb) FindAll(status string) ([]Customer, *errs.AppError
 		err := rows.Scan(&c.Id, &c.Name, &c.City, &c.Zipcode, &c.BirthDate, &c.Status)
 
 		if err != nil {
-			log.Println("Error while scanning customers table " + err.Error())
+			logger.Error("Error while scanning customers table " + err.Error())
 			return nil, errs.NewUnexpectedError("error while scanning customers table")
 		}
 		customers = append(customers, c)
@@ -64,7 +64,7 @@ func (d CustomerRepositoryDb) ById(id string) (*Customer, *errs.AppError) {
 			return nil, errs.NewNotFoundError("customer not found")
 		}
 
-		log.Println("Error while scanning customer " + err.Error())
+		logger.Error("Error while scanning customer " + err.Error())
 		return nil, errs.NewUnexpectedError("unexpected database error")
 	}
 	return &c, nil
