@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/jmoiron/sqlx"
 	"github.com/jwandekoken/golang_rest-server/errs"
 	"github.com/jwandekoken/golang_rest-server/logger"
 	_ "github.com/lib/pq"
@@ -20,18 +21,19 @@ const (
 )
 
 type CustomerRepositoryDb struct {
-	client *sql.DB
+	client *sqlx.DB
 }
 
 func (d CustomerRepositoryDb) FindAll(status string) ([]Customer, *errs.AppError) {
-	var rows *sql.Rows
 	var err error
+	customers := make([]Customer, 0)
+
 	if status == "" {
 		findAllSql := "select customer_id, name, city, zipcode, date_of_birth, status from customers"
-		rows, err = d.client.Query(findAllSql)
+		err = d.client.Select(&customers, findAllSql)
 	} else {
 		findAllSql := "select customer_id, name, city, zipcode, date_of_birth, status from customers where status = $1"
-		rows, err = d.client.Query(findAllSql, status)
+		err = d.client.Select(&customers, findAllSql, status)
 	}
 
 	if err != nil {
@@ -39,26 +41,14 @@ func (d CustomerRepositoryDb) FindAll(status string) ([]Customer, *errs.AppError
 		return nil, errs.NewUnexpectedError("error while querying customers table")
 	}
 
-	customers := make([]Customer, 0)
-	for rows.Next() {
-		var c Customer
-		err := rows.Scan(&c.Id, &c.Name, &c.City, &c.Zipcode, &c.BirthDate, &c.Status)
-
-		if err != nil {
-			logger.Error("Error while scanning customers table " + err.Error())
-			return nil, errs.NewUnexpectedError("error while scanning customers table")
-		}
-		customers = append(customers, c)
-	}
 	return customers, nil
 }
 
 func (d CustomerRepositoryDb) ById(id string) (*Customer, *errs.AppError) {
 	customerSql := "select customer_id, name, city, zipcode, date_of_birth, status from customers where customer_id = $1"
-
-	row := d.client.QueryRow(customerSql, id)
 	var c Customer
-	err := row.Scan(&c.Id, &c.Name, &c.City, &c.Zipcode, &c.BirthDate, &c.Status)
+	err := d.client.Get(&c, customerSql, id)
+
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, errs.NewNotFoundError("customer not found")
@@ -73,7 +63,7 @@ func (d CustomerRepositoryDb) ById(id string) (*Customer, *errs.AppError) {
 func NewCustomerRepositoryDb() CustomerRepositoryDb {
 	psqlconn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
 
-	client, err := sql.Open("postgres", psqlconn)
+	client, err := sqlx.Open("postgres", psqlconn)
 	if err != nil {
 		panic(err)
 	}
