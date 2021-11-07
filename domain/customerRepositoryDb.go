@@ -9,15 +9,7 @@ import (
 	"github.com/jwandekoken/golang_rest-server/errs"
 	"github.com/jwandekoken/golang_rest-server/logger"
 	_ "github.com/lib/pq"
-)
-
-// @TODO: put in a env file
-const (
-	host     = "localhost"
-	port     = 5432
-	user     = "wandekoken"
-	password = "123456"
-	dbname   = "golang_rest"
+	"github.com/spf13/viper"
 )
 
 type CustomerRepositoryDb struct {
@@ -61,7 +53,13 @@ func (d CustomerRepositoryDb) ById(id string) (*Customer, *errs.AppError) {
 }
 
 func NewCustomerRepositoryDb() CustomerRepositoryDb {
-	psqlconn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
+	dbAddr := viper.Get("DB.HOST")
+	dbPort := viper.Get("DB.PORT")
+	dbUser := viper.Get("DB.USERNAME")
+	dbPwd := viper.Get("DB.PASSWORD")
+	dbName := viper.Get("DB.NAME")
+
+	psqlconn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", dbAddr, dbPort, dbUser, dbPwd, dbName)
 
 	client, err := sqlx.Open("postgres", psqlconn)
 	if err != nil {
