@@ -2,14 +2,11 @@ package domain
 
 import (
 	"database/sql"
-	"fmt"
-	"time"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/jwandekoken/golang_rest-server/errs"
 	"github.com/jwandekoken/golang_rest-server/logger"
 	_ "github.com/lib/pq"
-	"github.com/spf13/viper"
 )
 
 type CustomerRepositoryDb struct {
@@ -52,23 +49,6 @@ func (d CustomerRepositoryDb) ById(id string) (*Customer, *errs.AppError) {
 	return &c, nil
 }
 
-func NewCustomerRepositoryDb() CustomerRepositoryDb {
-	dbAddr := viper.Get("DB.HOST")
-	dbPort := viper.Get("DB.PORT")
-	dbUser := viper.Get("DB.USERNAME")
-	dbPwd := viper.Get("DB.PASSWORD")
-	dbName := viper.Get("DB.NAME")
-
-	psqlconn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", dbAddr, dbPort, dbUser, dbPwd, dbName)
-
-	client, err := sqlx.Open("postgres", psqlconn)
-	if err != nil {
-		panic(err)
-	}
-
-	client.SetConnMaxLifetime(time.Minute * 3)
-	client.SetMaxOpenConns(10)
-	client.SetMaxIdleConns(10)
-
-	return CustomerRepositoryDb{client}
+func NewCustomerRepositoryDb(dbClient *sqlx.DB) CustomerRepositoryDb {
+	return CustomerRepositoryDb{client: dbClient}
 }
