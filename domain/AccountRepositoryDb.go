@@ -13,17 +13,11 @@ type AccountRepositoryDb struct {
 }
 
 func (d AccountRepositoryDb) Save(a Account) (*Account, *errs.AppError) {
-	slqInsert := "insert into accounts (customer_id, opening_date, account_type, amount, status) values ($1, $2, $3, $4, $5)"
+	var id int64
 
-	result, err := d.client.Exec(slqInsert, a.CustomerId, a.OpeningDate, a.AccountType, a.Amount, a.Status)
+	err := d.client.Get(&id, "insert into accounts (customer_id, opening_date, account_type, amount, status) values ($1, $2, $3, $4, $5) returning account_id", a.CustomerId, a.OpeningDate, a.AccountType, a.Amount, a.Status)
 	if err != nil {
-		logger.Error("Error while creating new account: " + err.Error())
-		return nil, errs.NewUnexpectedError("Error while creating new account")
-	}
-
-	id, err := result.LastInsertId()
-	if err != nil {
-		logger.Error("Error while getting last insert id for new account: " + err.Error())
+		logger.Error("Error while creating an Account: " + err.Error())
 		return nil, errs.NewUnexpectedError("Error while creating new account")
 	}
 
