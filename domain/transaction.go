@@ -1,6 +1,6 @@
 package domain
 
-import "github.com/jwandekoken/golang_rest-server/dto"
+import "github.com/jwandekoken/hexagonal_rest_ex/dto"
 
 const WITHDRAWAL = "withdrawal"
 

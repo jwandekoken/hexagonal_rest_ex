@@ -1,6 +1,6 @@
 package dto
 
-import "github.com/jwandekoken/golang_rest-server/errs"
+import "github.com/jwandekoken/hexagonal_rest_ex/errs"
 
 const WITHDRAWAL = "withdrawal"
 const DEPOSIT = "deposit"

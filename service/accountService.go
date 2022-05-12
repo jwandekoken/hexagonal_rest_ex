@@ -3,9 +3,9 @@ package service
 import (
 	"time"
 
-	"github.com/jwandekoken/golang_rest-server/domain"
-	"github.com/jwandekoken/golang_rest-server/dto"
-	"github.com/jwandekoken/golang_rest-server/errs"
+	"github.com/jwandekoken/hexagonal_rest_ex/domain"
+	"github.com/jwandekoken/hexagonal_rest_ex/dto"
+	"github.com/jwandekoken/hexagonal_rest_ex/errs"
 )
 
 const dbTSLayout = "2006-01-02 15:04:05"

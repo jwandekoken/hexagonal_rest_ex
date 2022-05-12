@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/jwandekoken/golang_rest-server/dto"
-	"github.com/jwandekoken/golang_rest-server/service"
+	"github.com/jwandekoken/hexagonal_rest_ex/dto"
+	"github.com/jwandekoken/hexagonal_rest_ex/service"
 )
 
 type AccountHandler struct {

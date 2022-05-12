@@ -3,7 +3,7 @@ package dto
 import (
 	"strings"
 
-	"github.com/jwandekoken/golang_rest-server/errs"
+	"github.com/jwandekoken/hexagonal_rest_ex/errs"
 )
 
 type NewAccountRequest struct {

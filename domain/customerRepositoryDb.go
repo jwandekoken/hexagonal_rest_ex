@@ -4,8 +4,8 @@ import (
 	"database/sql"
 
 	"github.com/jmoiron/sqlx"
-	"github.com/jwandekoken/golang_rest-server/errs"
-	"github.com/jwandekoken/golang_rest-server/logger"
+	"github.com/jwandekoken/hexagonal_rest_ex/errs"
+	"github.com/jwandekoken/hexagonal_rest_ex/logger"
 	_ "github.com/lib/pq"
 )
 

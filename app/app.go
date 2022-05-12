@@ -8,9 +8,9 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/jmoiron/sqlx"
-	"github.com/jwandekoken/golang_rest-server/domain"
-	"github.com/jwandekoken/golang_rest-server/logger"
-	"github.com/jwandekoken/golang_rest-server/service"
+	"github.com/jwandekoken/hexagonal_rest_ex/domain"
+	"github.com/jwandekoken/hexagonal_rest_ex/logger"
+	"github.com/jwandekoken/hexagonal_rest_ex/service"
 	"github.com/spf13/viper"
 )
 

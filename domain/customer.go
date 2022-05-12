@@ -1,8 +1,8 @@
 package domain
 
 import (
-	"github.com/jwandekoken/golang_rest-server/dto"
-	"github.com/jwandekoken/golang_rest-server/errs"
+	"github.com/jwandekoken/hexagonal_rest_ex/dto"
+	"github.com/jwandekoken/hexagonal_rest_ex/errs"
 )
 
 type Customer struct {

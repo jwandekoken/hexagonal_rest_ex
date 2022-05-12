@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/jwandekoken/golang_rest-server/service"
+	"github.com/jwandekoken/hexagonal_rest_ex/service"
 )
 
 type CustomerHandlers struct {
